@@ -1,4 +1,3 @@
-# New York Times News Search article app which allows a user to find old articles
 # Project 2 - *NYTimes Search*
 
 **NYTimes Search** is an android app that allows a user to search for articles on web using simple filters. The app utilizes [New York Times Search API](http://developer.nytimes.com/docs/read/article_search_api_v2).
