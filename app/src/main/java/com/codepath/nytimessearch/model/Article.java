@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 /**
  * Created by praniti on 9/19/17.
  */
 
+@Parcel
 public class Article {
 
     String webUrl;
+    String headline;
+    String thumbNail;
 
     public String getWebUrl() {
         return webUrl;
@@ -26,8 +30,8 @@ public class Article {
         return thumbNail;
     }
 
-    String headline;
-    String thumbNail;
+    public Article(){
+    }
 
     public Article(JSONObject jsonObject) {
         try {

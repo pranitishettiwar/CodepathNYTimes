@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import com.codepath.nytimessearch.adapter.ArticleArrayAdapter;
 import com.codepath.nytimessearch.R;
+import com.codepath.nytimessearch.adapter.ArticleArrayAdapter;
 import com.codepath.nytimessearch.model.Article;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -25,6 +25,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -60,12 +61,13 @@ public class SearchActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //create an intent to display the article
+
+                Article article = articles.get(position);
+
                 Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
 
-                //get the article to display
-                Article article = articles.get(position);
-                //pass in that article into intent
-                i.putExtra("url", article.getWebUrl());
+                i.putExtra("article", Parcels.wrap(article));
+
                 startActivity(i);
 
             }

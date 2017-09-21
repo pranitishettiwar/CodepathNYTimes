@@ -6,6 +6,9 @@ import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 
 import com.codepath.nytimessearch.R;
+import com.codepath.nytimessearch.model.Article;
+
+import org.parceler.Parcels;
 
 public class ArticleActivity extends AppCompatActivity {
 
@@ -16,7 +19,8 @@ public class ArticleActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String url = getIntent().getStringExtra("url");
+        Article article = (Article) Parcels.unwrap(getIntent().getParcelableExtra("article"));
+        //String url = getIntent().getStringExtra("url");
 
         WebView webview = (WebView) findViewById(R.id.wvArticle);
 
@@ -29,7 +33,7 @@ public class ArticleActivity extends AppCompatActivity {
 //                                 }
 //
 //        );
-        webview.loadUrl(url);
+        webview.loadUrl(article.getWebUrl());
     }
 
 }
