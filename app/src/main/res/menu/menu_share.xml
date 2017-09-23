@@ -8,11 +8,13 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/action_share"
-          android:orderInCategory="5"
-          android:title="Share"
-          android:icon="@android:drawable/ic_menu_share"
-          app:showAsAction="always|collapseActionView"
-          app:actionViewClass="android.support.v7.widget.SearchView" />
+    <item
+        android:id="@+id/action_share"
+        android:actionProviderClass=
+            "android.widget.ShareActionProvider"
+        android:icon="@android:drawable/ic_menu_share"
+        android:orderInCategory="5"
+        android:title="Share"
+        app:showAsAction="always|collapseActionView"/>
 
 </menu>
