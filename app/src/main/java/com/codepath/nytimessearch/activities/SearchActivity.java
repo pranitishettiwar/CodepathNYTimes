@@ -2,7 +2,10 @@ package com.codepath.nytimessearch.activities;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.codepath.nytimessearch.R;
 import com.codepath.nytimessearch.adapter.ArticleArrayAdapter;
@@ -82,10 +86,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                //fetch the list of articles
-                onArticleSearch(searchView, query);
-                searchView.clearFocus();
-                return true;
+                if (isNetworkAvailable() == true) {
+                    //fetch the list of articles
+                    onArticleSearch(searchView, query);
+                    searchView.clearFocus();
+                    return true;
+                } else {
+                    Toast.makeText(SearchActivity.this, "Please connect to internet", Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
 
             @Override
@@ -109,6 +118,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     public void onArticleSearch(View view, String query) {

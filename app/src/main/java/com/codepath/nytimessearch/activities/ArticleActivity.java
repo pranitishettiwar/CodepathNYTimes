@@ -1,6 +1,9 @@
 package com.codepath.nytimessearch.activities;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.codepath.nytimessearch.R;
 import com.codepath.nytimessearch.model.Article;
@@ -28,22 +32,34 @@ public class ArticleActivity extends AppCompatActivity {
         Article article = (Article) Parcels.unwrap(getIntent().getParcelableExtra("article"));
 
         WebView webview = (WebView) findViewById(R.id.wvArticle);
+        if (isNetworkAvailable() == true) {
 
-        // Configure related browser settings
-        webview.getSettings().setLoadsImagesAutomatically(true);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+            // Configure related browser settings
+            webview.getSettings().setLoadsImagesAutomatically(true);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        // Zoom out if the content width is greater than the width of the viewport
-        webview.getSettings().setLoadWithOverviewMode(true);
+            // Zoom out if the content width is greater than the width of the viewport
+            webview.getSettings().setLoadWithOverviewMode(true);
 
-        webview.getSettings().setSupportZoom(true);
-        webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
+            webview.getSettings().setSupportZoom(true);
+            webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
 
-        // Configure the client to use when opening URLs
-        webview.setWebViewClient(new MyBrowser());
-        // Load the initial URL
-        webview.loadUrl(article.getWebUrl());
+            // Configure the client to use when opening URLs
+            webview.setWebViewClient(new MyBrowser());
+            // Load the initial URL
+            webview.loadUrl(article.getWebUrl());
+
+        } else {
+            webview.loadUrl(article.getWebUrl());
+            Toast.makeText(ArticleActivity.this, "Please connect to internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     // Manages the behavior when URLs are loaded
