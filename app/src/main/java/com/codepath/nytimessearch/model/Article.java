@@ -14,9 +14,9 @@ import org.parceler.Parcel;
 @Parcel
 public class Article {
 
-    String webUrl;
-    String headline;
-    String thumbNail;
+    private String webUrl;
+    private String headline;
+    private String thumbNail;
 
     public String getWebUrl() {
         return webUrl;
@@ -33,7 +33,7 @@ public class Article {
     public Article(){
     }
 
-    public Article(JSONObject jsonObject) {
+    private Article(JSONObject jsonObject) {
         try {
             this.webUrl = jsonObject.getString("web_url");
             this.headline = jsonObject.getJSONObject("headline").getString("main");

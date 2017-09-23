@@ -14,8 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -35,10 +33,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class SearchActivity extends AppCompatActivity {
 
-    GridView gvResults;
+    private GridView gvResults;
 
-    ArrayList<Article> articles;
-    ArticleArrayAdapter adapter;
+    private ArrayList<Article> articles;
+    private ArticleArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +55,17 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new ArticleArrayAdapter(this, articles);
         gvResults.setAdapter(adapter);
 
-        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gvResults.setOnItemClickListener((parent, view, position, id) -> {
+            //create an intent to display the article
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //create an intent to display the article
+            Article article = articles.get(position);
 
-                Article article = articles.get(position);
+            Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
 
-                Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
+            i.putExtra("article", Parcels.wrap(article));
 
-                i.putExtra("article", Parcels.wrap(article));
+            startActivity(i);
 
-                startActivity(i);
-
-            }
         });
     }
 
@@ -86,9 +81,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                if (isNetworkAvailable() == true) {
+                if (isNetworkAvailable()) {
                     //fetch the list of articles
-                    onArticleSearch(searchView, query);
+                    onArticleSearch(query);
                     searchView.clearFocus();
                     return true;
                 } else {
@@ -126,7 +121,7 @@ public class SearchActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
-    public void onArticleSearch(View view, String query) {
+    private void onArticleSearch(String query) {
 
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";

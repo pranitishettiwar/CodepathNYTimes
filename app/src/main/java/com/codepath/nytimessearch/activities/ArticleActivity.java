@@ -32,7 +32,7 @@ public class ArticleActivity extends AppCompatActivity {
         Article article = (Article) Parcels.unwrap(getIntent().getParcelableExtra("article"));
 
         WebView webview = (WebView) findViewById(R.id.wvArticle);
-        if (isNetworkAvailable() == true) {
+        if (isNetworkAvailable()) {
 
             // Configure related browser settings
             webview.getSettings().setLoadsImagesAutomatically(true);
@@ -43,7 +43,7 @@ public class ArticleActivity extends AppCompatActivity {
             webview.getSettings().setLoadWithOverviewMode(true);
 
             webview.getSettings().setSupportZoom(true);
-            webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
+            webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zoom
 
             // Configure the client to use when opening URLs
             webview.setWebViewClient(new MyBrowser());

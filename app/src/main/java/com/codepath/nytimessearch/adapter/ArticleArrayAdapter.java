@@ -46,7 +46,7 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
 
-        tvTitle.setText(article.getHeadline());
+        tvTitle.setText(article != null ? article.getHeadline() : null);
 
         String thumbnail = article.getThumbNail();
 
