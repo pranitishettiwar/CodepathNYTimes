@@ -19,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:background="@color/colorButton"
         android:onClick="showDatePickerDialog"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:layout_marginTop="5dp"
         android:text="Pick a date"/>
 
     <TextView
@@ -83,10 +83,10 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorButton"
-        android:id="@+id/btn_apply"
         android:layout_margin="30dp"
+        android:background="@color/colorButton"
         android:text="APPLY"/>
 </LinearLayout>

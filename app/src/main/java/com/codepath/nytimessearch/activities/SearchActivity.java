@@ -40,7 +40,8 @@ public class SearchActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
     private String mBeginDate;
     private String mSortOrder;
-    private String mArts;
+    private String news_desk;
+    private String mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,9 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
 
                 if (isNetworkAvailable()) {
+
+                    mQuery = query;
+
                     //fetch the list of articles
                     onArticleSearch(query);
                     searchView.clearFocus();
@@ -126,7 +130,11 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void onArticleSearch(String query) {
+        //Clear the adapter with every search
+        adapter.clear();
 
+        //Sample request: https://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=20160112&sort=oldest&fq=news_desk:
+        // (%22Education%22%20%22Health%22)&api-key=227c750bb7714fc39ef1559ef1bd8329
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 
@@ -134,6 +142,11 @@ public class SearchActivity extends AppCompatActivity {
         params.put("api-key", "a1fd0ee32487496a9fccb272e2e53483");
         params.put("page", 0);
         params.put("q", query);
+        params.put("begin_date", mBeginDate);
+        params.put("sort", mSortOrder);
+        params.put("fq", news_desk);
+
+        Log.d("DEBUG: NEW URL", url);
 
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
@@ -160,9 +173,23 @@ public class SearchActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             mBeginDate = data.getExtras().getString("beginDate");
             mSortOrder = data.getExtras().getString("sortOrder");
-            mArts = data.getExtras().getString("arts");
+            Boolean arts = data.getExtras().getBoolean("arts", false);
+            Boolean fashion = data.getExtras().getBoolean("fashion", false);
+            Boolean sports = data.getExtras().getBoolean("sports", false);
 
+            if (arts || fashion || sports) {
+                news_desk = "news_desk:(";
+                if (arts)
+                    news_desk += "Arts,";
+                if (fashion)
+                    news_desk += "Fashion,";
+                if (sports)
+                    news_desk += "Sports";
+                news_desk += ")";
+            }
             Toast.makeText(SearchActivity.this, "Filter is applied", Toast.LENGTH_SHORT).show();
+
+            onArticleSearch(mQuery);
         }
     }
 }
