@@ -9,10 +9,15 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_search"
-          android:orderInCategory="5"
+          android:orderInCategory="4"
           android:title="Search"
           android:icon="@android:drawable/ic_menu_search"
           app:showAsAction="always|collapseActionView"
           app:actionViewClass="android.support.v7.widget.SearchView" />
 
+    <item android:id="@+id/action_filter"
+          android:orderInCategory="5"
+          android:title="Filter"
+          android:icon="@android:drawable/ic_menu_sort_by_size"
+          app:showAsAction="always|collapseActionView"/>
 </menu>

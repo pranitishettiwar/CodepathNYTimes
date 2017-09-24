@@ -57,13 +57,9 @@ public class SearchActivity extends AppCompatActivity {
 
         gvResults.setOnItemClickListener((parent, view, position, id) -> {
             //create an intent to display the article
-
             Article article = articles.get(position);
-
             Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
-
             i.putExtra("article", Parcels.wrap(article));
-
             startActivity(i);
 
         });
@@ -110,6 +106,9 @@ public class SearchActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_filter) {
+            startActivity(new Intent(getApplicationContext(), FilterActivity.class));
+
         }
 
         return super.onOptionsItemSelected(item);
