@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.codepath.nytimessearch.EndlessScrollListener;
 import com.codepath.nytimessearch.R;
 import com.codepath.nytimessearch.adapter.ArticleArrayAdapter;
 import com.codepath.nytimessearch.model.Article;
@@ -68,6 +69,24 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(i);
 
         });
+
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                loadNextDataFromApi(page);
+                return true;
+            }
+        });
+    }
+
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(int offset) {
+
+        Toast.makeText(SearchActivity.this, "Loading more", Toast.LENGTH_SHORT).show();
+
+        searchNextArticle(mQuery, offset);
+
     }
 
     @Override
@@ -85,6 +104,9 @@ public class SearchActivity extends AppCompatActivity {
                 if (isNetworkAvailable()) {
 
                     mQuery = query;
+
+                    //Clear the adapter with every search
+                    adapter.clear();
 
                     //fetch the list of articles
                     onArticleSearch(query);
@@ -130,8 +152,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void onArticleSearch(String query) {
-        //Clear the adapter with every search
-        adapter.clear();
 
         //Sample request: https://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=20160112&sort=oldest&fq=news_desk:
         // (%22Education%22%20%22Health%22)&api-key=227c750bb7714fc39ef1559ef1bd8329
@@ -141,6 +161,43 @@ public class SearchActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("api-key", "a1fd0ee32487496a9fccb272e2e53483");
         params.put("page", 0);
+        params.put("q", query);
+        params.put("begin_date", mBeginDate);
+        params.put("sort", mSortOrder);
+        params.put("fq", news_desk);
+
+        Log.d("DEBUG: NEW URL", url);
+
+        client.get(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", response.toString());
+
+                JSONArray articleJsonResults = null;
+
+                try {
+                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+                    adapter.addAll(Article.fromJSONArray(articleJsonResults));
+                    adapter.notifyDataSetChanged();
+                    Log.d("DEBUG", articles.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void searchNextArticle(String query, int page) {
+
+        //Sample request: https://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=20160112&sort=oldest&fq=news_desk:
+        // (%22Education%22%20%22Health%22)&api-key=227c750bb7714fc39ef1559ef1bd8329
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+
+        RequestParams params = new RequestParams();
+        params.put("api-key", "a1fd0ee32487496a9fccb272e2e53483");
+        params.put("page", page);
         params.put("q", query);
         params.put("begin_date", mBeginDate);
         params.put("sort", mSortOrder);
