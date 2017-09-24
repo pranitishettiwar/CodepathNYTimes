@@ -19,17 +19,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="@color/colorButton"
         android:onClick="showDatePickerDialog"
-        android:paddingRight="50dp"
         android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:layout_marginTop="5dp"
         android:text="Pick a date"/>
 
     <TextView
         android:id="@+id/tv_order"
-        android:paddingTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="30dp"
         android:text="Sort Order"
         android:textSize="16dp"/>
 
@@ -39,14 +41,15 @@
         android:layout_height="wrap_content"
         android:entries="@array/sorting_array"
         android:paddingLeft="30dp"
-        android:paddingRight="30dp"/>
+        android:paddingRight="30dp"
+        android:paddingTop="5dp"/>
 
     <TextView
         android:id="@+id/tv_desks"
-        android:paddingTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="30dp"
         android:text="New Desk Values"
         android:textSize="16dp"/>
 
@@ -61,24 +64,29 @@
             android:id="@+id/checkbox_arts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
             android:text="Arts"/>
 
         <CheckBox
             android:id="@+id/checkbox_fashion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
             android:text="Fashion &amp; Style"/>
 
         <CheckBox
             android:id="@+id/checkbox_sports"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
             android:text="Sports"/>
     </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorButton"
         android:onClick="onSave"
+        android:layout_margin="30dp"
         android:text="SAVE"/>
 </LinearLayout>
