@@ -37,6 +37,10 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Article> articles;
     private ArticleArrayAdapter adapter;
+    private final int REQUEST_CODE = 20;
+    private String mBeginDate;
+    private String mSortOrder;
+    private String mArts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +111,8 @@ public class SearchActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_filter) {
-            startActivity(new Intent(getApplicationContext(), FilterActivity.class));
+            Intent i = new Intent(SearchActivity.this, FilterActivity.class);
+            startActivityForResult(i, REQUEST_CODE);
 
         }
 
@@ -148,6 +153,17 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            mBeginDate = data.getExtras().getString("beginDate");
+            mSortOrder = data.getExtras().getString("sortOrder");
+            mArts = data.getExtras().getString("arts");
+
+            Toast.makeText(SearchActivity.this, "Filter is applied", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
