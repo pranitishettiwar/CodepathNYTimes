@@ -56,7 +56,7 @@ Here's a walkthrough of implemented user stories:
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
-- It was difficult to validate the content as the response were not all the times related to what you are searching for, or enough content to show infinite scrolling.
+- It was difficult to validate the Search results as the response were not all the times related to what searched, or enough content to show infinite scrolling.
 
 ## Open-source libraries used
 
