@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -56,6 +58,15 @@ public class ArticleActivity extends AppCompatActivity {
             webview.loadUrl(article.getWebUrl());
             Toast.makeText(ArticleActivity.this, "Please connect to internet", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_share);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private Boolean isNetworkAvailable() {

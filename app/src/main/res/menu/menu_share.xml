@@ -12,7 +12,7 @@
         android:id="@+id/action_share"
         android:actionProviderClass=
             "android.widget.ShareActionProvider"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_share"
         android:orderInCategory="5"
         android:title="Share"
         app:showAsAction="always|collapseActionView"/>
