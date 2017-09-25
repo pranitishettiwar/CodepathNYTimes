@@ -51,6 +51,8 @@ Here's a walkthrough of implemented user stories:
 
 <img src='http://i.imgur.com/lFOOa2n.gif' title='Video Walkthrough - Persistent Filter setting and Embedded webview' width='' alt='Video Walkthrough' />
 
+<img src='https://user-images.githubusercontent.com/13841234/30791692-0793ef72-a169-11e7-865c-c448c1d2b7b0.png' title='Screenshot' width='400' alt='' />
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
