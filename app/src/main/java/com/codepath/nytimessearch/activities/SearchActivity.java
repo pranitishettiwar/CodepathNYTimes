@@ -152,7 +152,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void onArticleSearch(String query) {
-
+        adapter.clear();
         //Sample request: https://api.nytimes.com/svc/search/v2/articlesearch.json?begin_date=20160112&sort=oldest&fq=news_desk:
         // (%22Education%22%20%22Health%22)&api-key=227c750bb7714fc39ef1559ef1bd8329
         AsyncHttpClient client = new AsyncHttpClient();

@@ -2,11 +2,13 @@ package com.codepath.nytimessearch.activities;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +23,12 @@ import com.codepath.nytimessearch.model.Article;
 
 import org.parceler.Parcels;
 
+import static com.codepath.nytimessearch.R.id.wvArticle;
+
 public class ArticleActivity extends AppCompatActivity {
     private WebView webview;
+    private ShareActionProvider miShareAction;
+    private Intent shareIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,7 @@ public class ArticleActivity extends AppCompatActivity {
         //Unwrap content
         Article article = (Article) Parcels.unwrap(getIntent().getParcelableExtra("article"));
 
-        WebView webview = (WebView) findViewById(R.id.wvArticle);
+        webview = (WebView) findViewById(wvArticle);
         if (isNetworkAvailable()) {
 
             // Configure related browser settings
@@ -58,6 +64,8 @@ public class ArticleActivity extends AppCompatActivity {
             webview.loadUrl(article.getWebUrl());
             Toast.makeText(ArticleActivity.this, "Please connect to internet", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     @Override
@@ -66,7 +74,25 @@ public class ArticleActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_share, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_share);
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_share){
+            shareURL();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void shareURL() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, webview.getUrl());
+        startActivity(Intent.createChooser(shareIntent, "Share This!"));
     }
 
     private Boolean isNetworkAvailable() {
